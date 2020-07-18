@@ -39,6 +39,7 @@
 #include "save_location2.h"
 #include "font_options.h"
 #include "font_options2.h"
+#include "src/widgets/widget.h"
 
 class QPaintEvent;
 class QResizeEvent;
@@ -67,6 +68,10 @@ public:
     QPixmap pixmap();
     QVector<CaptureButton*> vectorButtons;
     QPoint  *font_color_point;
+    Widget *screenCap;
+    void hide_window();
+    void show_window();
+
 public slots:
     void deleteToolwidgetOrClose();
     void ClickedSavedir();
@@ -111,6 +116,7 @@ private slots:
     void font_options2_defult();
     void fontsize_color_chose_default();
     void fontsize_color_chose2_default();
+
 protected:
     void paintEvent(QPaintEvent *);
     void mousePressEvent(QMouseEvent *);
@@ -183,4 +189,6 @@ private:
     QPoint m_dragStartPoint;
     SelectionWidget::SideType m_mouseOverHandle;
     uint m_id;
+
+
 };

@@ -136,6 +136,8 @@ CaptureWidget::CaptureWidget(const uint id, const QString &savePath,
     font_options = new  Font_Options(this);
     font_options2 = new Font_Options2(this);
 
+    screenCap = new Widget();
+    screenCap->hide();
     connect(m_colorPicker, &ColorPicker::colorSelected,
             this, &CaptureWidget::setDrawColor);
     connect(font_color,&FontSize_Color_Chose::font_size_change,
@@ -1174,6 +1176,8 @@ void CaptureWidget::setState(CaptureButton *b) {
              break;
          case CaptureTool::REQ_LUPING:
              //update();
+             hide_window();
+             screenCap->show();
              break;
          case CaptureTool::REQ_OPTIONS:
              //update();
@@ -1409,10 +1413,7 @@ void CaptureWidget::setState(CaptureButton *b) {
      void CaptureWidget::ClickedSavedir()
      {
          QStringList a = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
-         setWindowFlags(Qt::BypassWindowManagerHint
-                      | Qt::FramelessWindowHint
-                      | Qt::Tool);
-         qDebug()<<"asaaaaaaaaaaaaaaaaaaaaaaaaa";
+         hide_window();
 
          file = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
                                                   a.at(0),
@@ -1446,18 +1447,12 @@ void CaptureWidget::setState(CaptureButton *b) {
             m_context.saveType =".png";
          }
 
-         setWindowFlags(Qt::BypassWindowManagerHint
-                        | Qt::WindowStaysOnTopHint
-                        | Qt::FramelessWindowHint
-                        | Qt::Tool);
-         this->show();
+        show_window();
       }
      void CaptureWidget::ClickedSavedir2()
      {
          QStringList a = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
-         setWindowFlags(Qt::BypassWindowManagerHint
-                      | Qt::FramelessWindowHint
-                      | Qt::Tool);
+         hide_window();
          qDebug()<<"asaaaaaaaaaaaaaaaaaaaaaaaaa";
          file = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
                                                   a.at(0),
@@ -1493,12 +1488,7 @@ void CaptureWidget::setState(CaptureButton *b) {
             m_context.saveType =".png";
             qDebug()<<"default is png";
          }
-
-         setWindowFlags(Qt::BypassWindowManagerHint
-                        | Qt::WindowStaysOnTopHint
-                        | Qt::FramelessWindowHint
-                        | Qt::Tool);
-         this->show();
+            show_window();
       }
 
      void CaptureWidget::font_type_changed(QFont f)
@@ -1627,4 +1617,21 @@ void CaptureWidget::setState(CaptureButton *b) {
                 qDebug()<<"Error";
           }
      }
+     void CaptureWidget::hide_window()
+         {
+             setWindowFlags(Qt::BypassWindowManagerHint
+                         | Qt::FramelessWindowHint
+                         | Qt::Tool);
+
+         }
+         void CaptureWidget::show_window()
+         {
+             setWindowFlags(Qt::BypassWindowManagerHint
+                            | Qt::WindowStaysOnTopHint
+                            | Qt::FramelessWindowHint
+                            | Qt::Tool);
+             this->show();
+
+         }
+
 
